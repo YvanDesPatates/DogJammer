@@ -248,7 +248,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 130
   rotationSpeed: 10
-  originalZRotation: 0
+  dashSpeed: 555
+  dashSecDuration: 0.35
+  dashSecCoolDown: 1
 --- !u!50 &1730725377
 Rigidbody2D:
   serializedVersion: 4

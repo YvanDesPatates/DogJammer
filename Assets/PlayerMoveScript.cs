@@ -14,6 +14,9 @@ public class PlayerMoveScript : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;
     private Rigidbody2D rigidBody;
+    private float timer = 0;
+    private bool dashEnable = true;
+    private bool isDashing = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,18 +27,26 @@ public class PlayerMoveScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space) && dashEnable)
+        {
+            isDashing = true;
+            dashEnable = false;
+            timer = 0;
+        }
     }
 
     void FixedUpdate()
     {
-        float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        float verticalMovement = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
+        float realMoveSpeed = GetActualSpeed();
+
+        float horizontalMovement = Input.GetAxis("Horizontal") * realMoveSpeed * Time.deltaTime;
+        float verticalMovement = Input.GetAxis("Vertical") * realMoveSpeed * Time.deltaTime;
         MovePlayer(horizontalMovement, verticalMovement);
 
         int _horizontalDirection = Input.GetAxis("Horizontal") < 0 ? -1 : Input.GetAxis("Horizontal") > 0 ? 1 : 0;
         int _verticalDirection = Input.GetAxis("Vertical") < 0 ? -1 : Input.GetAxis("Vertical") > 0 ? 1 : 0;
         RotatePlayer(_horizontalDirection, _verticalDirection);
+
     }
 
     private void MovePlayer(float _horizontalMovement, float _verticalMovement)
@@ -61,9 +72,6 @@ public class PlayerMoveScript : MonoBehaviour
                     float xRotation = _horizontalDirection < 0 ? 180 : 0;
                     float yRotation = 90 * _verticalDirection;
                     zRotation += (yRotation + xRotation) / 2;
-                    Debug.Log("x = " + xRotation);
-                    Debug.Log("y = " + yRotation);
-                    Debug.Log("z = " + zRotation);
                 }
 
             }
@@ -76,6 +84,25 @@ public class PlayerMoveScript : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * rotationSpeed);
         }
+    }
+
+    private float GetActualSpeed()
+    {
+        timer += Time.deltaTime;
+
+        if (isDashing)
+        {
+            isDashing = timer < dashSecDuration;
+            return dashSpeed;
+        }
+
+        if (!dashEnable)
+        {
+            dashEnable = timer >= dashSecCoolDown + dashSecDuration;
+            return moveSpeed;
+        }
+
+        return moveSpeed;
     }
 
 }
