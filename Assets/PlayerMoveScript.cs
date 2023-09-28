@@ -39,8 +39,8 @@ public class PlayerMoveScript : MonoBehaviour
     {
         float realMoveSpeed = GetActualSpeed();
 
-        float horizontalMovement = Input.GetAxis("Horizontal") * realMoveSpeed * Time.deltaTime;
-        float verticalMovement = Input.GetAxis("Vertical") * realMoveSpeed * Time.deltaTime;
+        float horizontalMovement = Input.GetAxis("Horizontal") * realMoveSpeed;
+        float verticalMovement = Input.GetAxis("Vertical") * realMoveSpeed;
         MovePlayer(horizontalMovement, verticalMovement);
 
         int _horizontalDirection = Input.GetAxis("Horizontal") < 0 ? -1 : Input.GetAxis("Horizontal") > 0 ? 1 : 0;
