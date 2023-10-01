@@ -17,7 +17,7 @@ public class FrisbeeMoveScript : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         SetVelocity(velocity);
-        rigidBody.totalTorque = torqueRotation;
+        rigidBody.totalTorque = torqueRotation  ;
     }
 
     // Update is called once per frame
