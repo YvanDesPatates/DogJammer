@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 1694486802}
   - component: {fileID: 1694486803}
   m_Layer: 0
-  m_Name: Frrisbee
+  m_Name: Frisbee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd468d182a18c34f8606c1ecdae266e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 5
+  speed: 10
   velocity: {x: -1, y: 0}
 --- !u!58 &1694486804
 CircleCollider2D:
