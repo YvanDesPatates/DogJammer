@@ -28,8 +28,9 @@ public class FrisbeeMoveScript : MonoBehaviour
 
     public void SetVelocity(Vector2 velocity)
     {
+        _rigidBody.freezeRotation = false;
+        _rigidBody.totalTorque = torqueRotation;
         _targetPos = null;
-        _rigidBody.totalTorque = torqueRotation  ;
         _rigidBody.velocity = velocity * speed;
     }
 
@@ -41,7 +42,7 @@ public class FrisbeeMoveScript : MonoBehaviour
     public void SetTargetPos(Transform targetPos)
     {
         _rigidBody.velocity = Vector2.zero;
-        _rigidBody.totalTorque = 0  ;
+        _rigidBody.freezeRotation = true;
         _targetPos = targetPos;
     }
 }
