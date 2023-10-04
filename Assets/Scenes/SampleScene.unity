@@ -430,7 +430,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1694486801}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6b49593e4bc33fd4d95e417865dda4ff, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -440,17 +440,17 @@ CircleCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -664,7 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1857744618}
   - component: {fileID: 1857744619}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Arena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
