@@ -25,11 +25,11 @@ public class PlayerHeadScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.layer == 6)
+        if (other.gameObject.layer == 6)
         {
-            _frisbee = collision.gameObject.GetComponent<FrisbeeMoveScript>();
+            _frisbee = other.gameObject.GetComponent<FrisbeeMoveScript>();
             _frisbee.SetTargetPos(_frisbeePos);
         }
     }
