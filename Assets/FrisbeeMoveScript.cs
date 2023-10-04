@@ -11,14 +11,12 @@ public class FrisbeeMoveScript : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
     private Transform _targetPos;
-    private CircleCollider2D _collider;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<CircleCollider2D>();
         ThrowFrisbee(velocity);
     }
 
@@ -33,7 +31,6 @@ public class FrisbeeMoveScript : MonoBehaviour
         _rigidBody.freezeRotation = false;
         _rigidBody.totalTorque = torqueRotation;
         _targetPos = null;
-        _collider.enabled = true;
         _rigidBody.velocity = velocity * speed;
     }
 
@@ -46,7 +43,6 @@ public class FrisbeeMoveScript : MonoBehaviour
     {
         _rigidBody.velocity = Vector2.zero;
         _rigidBody.freezeRotation = true;
-        _collider.enabled = false;
         _targetPos = targetPos;
     }
 }
