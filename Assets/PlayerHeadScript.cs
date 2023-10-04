@@ -20,7 +20,7 @@ public class PlayerHeadScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && _frisbee is not null)
         {
-            _frisbee.SetVelocity(_target.position - transform.position);
+            _frisbee.ThrowFrisbee(_target.position - transform.position);
             _frisbee = null;
         }
     }
@@ -30,7 +30,7 @@ public class PlayerHeadScript : MonoBehaviour
         if (other.gameObject.layer == 6)
         {
             _frisbee = other.gameObject.GetComponent<FrisbeeMoveScript>();
-            _frisbee.SetTargetPos(_frisbeePos);
+            _frisbee.CatchFrisbee(_frisbeePos);
         }
     }
 }
