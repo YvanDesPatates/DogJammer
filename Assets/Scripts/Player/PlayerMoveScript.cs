@@ -24,17 +24,6 @@ public class PlayerMoveScript : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && dashEnable)
-        {
-            isDashing = true;
-            dashEnable = false;
-            timer = 0;
-        }
-    }
-
     void FixedUpdate()
     {
         float realMoveSpeed = GetActualSpeed();
@@ -47,6 +36,15 @@ public class PlayerMoveScript : MonoBehaviour
         int _verticalDirection = Input.GetAxis("Vertical") < 0 ? -1 : Input.GetAxis("Vertical") > 0 ? 1 : 0;
         RotatePlayer(_horizontalDirection, _verticalDirection);
 
+    }
+
+    public void Dash()
+    {
+        if (dashEnable is false) return;
+        
+        isDashing = true;
+        dashEnable = false;
+        timer = 0;
     }
 
     private void MovePlayer(float _horizontalMovement, float _verticalMovement)
