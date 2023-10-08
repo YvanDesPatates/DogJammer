@@ -20,6 +20,6 @@ public class PlayerFacadeScript : MonoBehaviour
 
     public void ThrowFrisbee()
     {
-        
+        _playerHeadScript.ThrowFrisbee();
     }
 }

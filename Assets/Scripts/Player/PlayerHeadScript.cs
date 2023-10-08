@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class PlayerHeadScript : MonoBehaviour
@@ -15,16 +16,6 @@ public class PlayerHeadScript : MonoBehaviour
         _frisbeePos = transform.GetChild(1);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C) && _frisbee is not null)
-        {
-            _frisbee.ThrowFrisbee(_target.position - transform.position);
-            _frisbee = null;
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.layer == 6)
@@ -32,5 +23,13 @@ public class PlayerHeadScript : MonoBehaviour
             _frisbee = other.gameObject.GetComponent<FrisbeeMoveScript>();
             _frisbee.CatchFrisbee(_frisbeePos);
         }
+    }
+
+    public void ThrowFrisbee()
+    {
+        if (_frisbee is null) return;
+        
+        _frisbee.ThrowFrisbee(_target.position - transform.position);
+        _frisbee = null;
     }
 }
