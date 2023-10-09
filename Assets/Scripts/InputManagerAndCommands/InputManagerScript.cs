@@ -1,32 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManagerScript : MonoBehaviour
 {
     public PlayerFacadeScript player1;
     public PlayerFacadeScript player2;
 
-    private ICommand _spaceCommand;
-    private ICommand _cCommand;
+    private Gamepad _player1Gamepad;
+    private Gamepad _player2Gamepad;
+    private bool _allGamepadWasAttributed = false;
+    private ICommand _southButtonCommand;
+    private ICommand _westButtonCommand;
+
     void Start()
     {
-        _spaceCommand = new DashCommand();
-        _cCommand = new ThrowFrisbeeCommand();
+        _southButtonCommand = new ThrowFrisbeeCommand();
+        _westButtonCommand = new DashCommand();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!_allGamepadWasAttributed)
         {
-            _spaceCommand.Execute(player1);
+            SetUpGamePadMapping();
+            return;
+        }
+        
+        
+        if (_player1Gamepad.buttonSouth.wasPressedThisFrame)
+        {
+            _southButtonCommand.Execute(player1);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (_player1Gamepad.buttonWest.wasPressedThisFrame)
         {
-            _cCommand.Execute(player1);
+            _westButtonCommand.Execute(player1);
         }
+        
+
+        if (_player2Gamepad.buttonSouth.wasPressedThisFrame)
+        {
+            _southButtonCommand.Execute(player2);
+        }
+
+        if (_player2Gamepad.buttonWest.wasPressedThisFrame)
+        {
+            _westButtonCommand.Execute(player2);
+        }
+    }
+
+    private void SetUpGamePadMapping()
+    {
+        var gamepad = Gamepad.current;
+        if (gamepad is null) return;
+
+        if (_player1Gamepad is null)
+        {
+            _player1Gamepad = gamepad;
+            return;
+        }
+
+        if (gamepad.Equals(_player1Gamepad)) return;
+        _player2Gamepad = gamepad;
+        _allGamepadWasAttributed = true;
     }
 }
