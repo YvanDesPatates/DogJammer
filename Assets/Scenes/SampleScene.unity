@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 1730725380}
   player2: {fileID: 606008485}
+  testMode1Player: 1
 --- !u!4 &34404175
 Transform:
   m_ObjectHideFlags: 0

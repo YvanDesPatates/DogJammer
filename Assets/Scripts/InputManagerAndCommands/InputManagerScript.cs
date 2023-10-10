@@ -1,11 +1,14 @@
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class InputManagerScript : MonoBehaviour
 {
     public PlayerFacadeScript player1;
     public PlayerFacadeScript player2;
+
+    public bool testMode1Player = false;
 
     private Gamepad _player1Gamepad;
     private Gamepad _player2Gamepad;
@@ -29,6 +32,7 @@ public class InputManagerScript : MonoBehaviour
         }
         
         
+        
         if (_player1Gamepad.buttonSouth.wasPressedThisFrame)
         {
             _southButtonCommand.Execute(player1);
@@ -38,7 +42,8 @@ public class InputManagerScript : MonoBehaviour
         {
             _westButtonCommand.Execute(player1);
         }
-        
+
+        if (testMode1Player) return;
 
         if (_player2Gamepad.buttonSouth.wasPressedThisFrame)
         {
@@ -59,6 +64,7 @@ public class InputManagerScript : MonoBehaviour
         if (_player1Gamepad is null)
         {
             _player1Gamepad = gamepad;
+            if (testMode1Player) _allGamepadWasAttributed = true;
             return;
         }
 
