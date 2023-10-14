@@ -30,7 +30,8 @@ public class InputManagerScript : MonoBehaviour
             SetUpGamePadMapping();
             return;
         }
-        
+
+        Move();
         
         
         if (_player1Gamepad.buttonSouth.wasPressedThisFrame)
@@ -54,6 +55,11 @@ public class InputManagerScript : MonoBehaviour
         {
             _westButtonCommand.Execute(player2);
         }
+    }
+
+    private void Move()
+    {
+        player1.Move(_player1Gamepad.leftStick.x.value, _player1Gamepad.leftStick.y.value);
     }
 
     private void SetUpGamePadMapping()

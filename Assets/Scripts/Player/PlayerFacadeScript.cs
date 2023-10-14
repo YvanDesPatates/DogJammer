@@ -13,6 +13,11 @@ public class PlayerFacadeScript : MonoBehaviour
         _playerHeadScript = GetComponentInChildren<PlayerHeadScript>();
     }
 
+    public void Move(float horizontalInput, float verticalInput)
+    {
+        _playerMoveScript.MovePlayer(horizontalInput, verticalInput);
+    }
+    
     public void Dash()
     {
         _playerMoveScript.Dash();

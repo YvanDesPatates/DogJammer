@@ -17,6 +17,7 @@ public class PlayerMoveScript : MonoBehaviour
     private float timer = 0;
     private bool dashEnable = true;
     private bool isDashing = false;
+    private float _realMoveSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +27,7 @@ public class PlayerMoveScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        float realMoveSpeed = GetActualSpeed();
-
-        float horizontalMovement = Input.GetAxis("Horizontal") * realMoveSpeed;
-        float verticalMovement = Input.GetAxis("Vertical") * realMoveSpeed;
-        MovePlayer(horizontalMovement, verticalMovement);
+        SetActualSpeed();
 
         int _horizontalDirection = Input.GetAxis("Horizontal") < 0 ? -1 : Input.GetAxis("Horizontal") > 0 ? 1 : 0;
         int _verticalDirection = Input.GetAxis("Vertical") < 0 ? -1 : Input.GetAxis("Vertical") > 0 ? 1 : 0;
@@ -47,9 +44,11 @@ public class PlayerMoveScript : MonoBehaviour
         timer = 0;
     }
 
-    private void MovePlayer(float _horizontalMovement, float _verticalMovement)
+    internal void MovePlayer(float horizontalInput, float verticalInput)
     {
-        Vector3 targetVelocity = new Vector2(_horizontalMovement, _verticalMovement);
+        float horizontalMovement = horizontalInput * _realMoveSpeed;
+        float verticalMovement = verticalInput * _realMoveSpeed;
+        Vector3 targetVelocity = new Vector2(horizontalMovement, verticalMovement);
         rigidBody.velocity = Vector3.SmoothDamp(rigidBody.velocity, targetVelocity, ref velocity, 0.05f);
     }
 
@@ -84,23 +83,25 @@ public class PlayerMoveScript : MonoBehaviour
         }
     }
 
-    private float GetActualSpeed()
+    private void SetActualSpeed()
     {
         timer += Time.deltaTime;
 
         if (isDashing)
         {
             isDashing = timer < dashSecDuration;
-            return dashSpeed;
+            _realMoveSpeed = dashSpeed;
+            return;
         }
 
         if (!dashEnable)
         {
             dashEnable = timer >= dashSecCoolDown + dashSecDuration;
-            return moveSpeed;
+            _realMoveSpeed = moveSpeed;
+            return;
         }
 
-        return moveSpeed;
+        _realMoveSpeed = moveSpeed;
     }
 
 }
