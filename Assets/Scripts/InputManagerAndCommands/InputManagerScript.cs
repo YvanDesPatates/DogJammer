@@ -60,6 +60,8 @@ public class InputManagerScript : MonoBehaviour
     private void Move()
     {
         player1.Move(_player1Gamepad.leftStick.x.value, _player1Gamepad.leftStick.y.value);
+        if (testMode1Player) return;
+        player2.Move(_player2Gamepad.leftStick.x.value, _player2Gamepad.leftStick.y.value);
     }
 
     private void SetUpGamePadMapping()

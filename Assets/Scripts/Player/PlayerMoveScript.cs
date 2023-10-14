@@ -9,7 +9,7 @@ public class PlayerMoveScript : MonoBehaviour
 
     public float dashSpeed = 260;
     public float dashSecDuration = 0.3f;
-    public float dashSecCoolDown = 1; 
+    public float dashSecCoolDown = 1;
 
 
     private Vector3 velocity = Vector3.zero;
@@ -31,14 +31,13 @@ public class PlayerMoveScript : MonoBehaviour
 
         int _horizontalDirection = Input.GetAxis("Horizontal") < 0 ? -1 : Input.GetAxis("Horizontal") > 0 ? 1 : 0;
         int _verticalDirection = Input.GetAxis("Vertical") < 0 ? -1 : Input.GetAxis("Vertical") > 0 ? 1 : 0;
-        RotatePlayer(_horizontalDirection, _verticalDirection);
-
+        // RotatePlayer(_horizontalDirection, _verticalDirection);
     }
 
     public void Dash()
     {
         if (dashEnable is false) return;
-        
+
         isDashing = true;
         dashEnable = false;
         timer = 0;
@@ -50,36 +49,19 @@ public class PlayerMoveScript : MonoBehaviour
         float verticalMovement = verticalInput * _realMoveSpeed;
         Vector3 targetVelocity = new Vector2(horizontalMovement, verticalMovement);
         rigidBody.velocity = Vector3.SmoothDamp(rigidBody.velocity, targetVelocity, ref velocity, 0.05f);
+        
+        RotatePlayer(horizontalInput, verticalInput);
     }
 
     //_horizontalMovement should be equal to 1, -1 or 0 depend if the player moves right, left or none.
-    private void RotatePlayer(int _horizontalDirection, int _verticalDirection)
+    private void RotatePlayer(float horizontalInput, float verticalInput)
     {
-        if (_horizontalDirection != 0 || _verticalDirection != 0)
+        Vector2 lookDir = new Vector2(-verticalInput, horizontalInput);
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        if (lookDir.sqrMagnitude > 0.0f)
         {
-            float zRotation = 0;
-            if (_horizontalDirection != 0 && _verticalDirection != 0)
-            {
-                if (_horizontalDirection == -1 && _verticalDirection == -1)
-                {
-                    zRotation -= 135;
-                }
-                else
-                {
-                    float xRotation = _horizontalDirection < 0 ? 180 : 0;
-                    float yRotation = 90 * _verticalDirection;
-                    zRotation += (yRotation + xRotation) / 2;
-                }
-
-            }
-            else
-            {
-                zRotation += _horizontalDirection < 0 ? 180 : 0;
-                zRotation += 90 * _verticalDirection;
-            }
-            Quaternion target = Quaternion.Euler(0, 0, zRotation);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * rotationSpeed);
+            Quaternion target = Quaternion.Euler(0, 0, angle);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * rotationSpeed);
         }
     }
 
@@ -103,5 +85,4 @@ public class PlayerMoveScript : MonoBehaviour
 
         _realMoveSpeed = moveSpeed;
     }
-
 }

@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  rotationSpeed: 10
+  rotationSpeed: 6
   dashSpeed: 20
   dashSecDuration: 0.25
   dashSecCoolDown: 1
