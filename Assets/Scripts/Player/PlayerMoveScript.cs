@@ -1,42 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoveScript : MonoBehaviour
 {
+    // move
     public float moveSpeed = 130;
     public float rotationSpeed = 10;
-
+    //dash
     public float dashSpeed = 260;
     public float dashSecDuration = 0.3f;
     public float dashSecCoolDown = 1;
 
-
-    private Vector3 velocity = Vector3.zero;
-    private Rigidbody2D rigidBody;
-    private float timer = 0;
-    private bool dashEnable = true;
-    private bool isDashing = false;
+    //optimisation
+    private Rigidbody2D _rigidBody;
+    private Transform _transform;
+    
+    private Vector3 _velocity = Vector3.zero;
+    private bool _dashEnable = true;
     private float _realMoveSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-    }
-
-    void FixedUpdate()
-    {
-        SetActualSpeed();
+        _rigidBody = GetComponent<Rigidbody2D>();
+        _transform = transform;
+        _realMoveSpeed = moveSpeed;
     }
 
     public void Dash()
     {
-        if (dashEnable is false) return;
+        if (_dashEnable is false) return;
 
-        isDashing = true;
-        dashEnable = false;
-        timer = 0;
+        StartCoroutine(DashSpeedAndCoolDownCoroutine());
     }
 
     internal void MovePlayer(float horizontalInput, float verticalInput)
@@ -44,12 +39,11 @@ public class PlayerMoveScript : MonoBehaviour
         float horizontalMovement = horizontalInput * _realMoveSpeed;
         float verticalMovement = verticalInput * _realMoveSpeed;
         Vector3 targetVelocity = new Vector2(horizontalMovement, verticalMovement);
-        rigidBody.velocity = Vector3.SmoothDamp(rigidBody.velocity, targetVelocity, ref velocity, 0.05f);
+        _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref _velocity, 0.05f);
         
         RotatePlayer(horizontalInput, verticalInput);
     }
 
-    //_horizontalMovement should be equal to 1, -1 or 0 depend if the player moves right, left or none.
     private void RotatePlayer(float horizontalInput, float verticalInput)
     {
         Vector2 lookDir = new Vector2(-verticalInput, horizontalInput);
@@ -57,28 +51,20 @@ public class PlayerMoveScript : MonoBehaviour
         if (lookDir.sqrMagnitude > 0.0f)
         {
             Quaternion target = Quaternion.Euler(0, 0, angle);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * rotationSpeed);
+            _transform.rotation = Quaternion.Slerp(_transform.rotation, target, Time.fixedDeltaTime * rotationSpeed);
         }
     }
 
-    private void SetActualSpeed()
+    private IEnumerator DashSpeedAndCoolDownCoroutine()
     {
-        timer += Time.deltaTime;
-
-        if (isDashing)
-        {
-            isDashing = timer < dashSecDuration;
-            _realMoveSpeed = dashSpeed;
-            return;
-        }
-
-        if (!dashEnable)
-        {
-            dashEnable = timer >= dashSecCoolDown + dashSecDuration;
-            _realMoveSpeed = moveSpeed;
-            return;
-        }
+        _dashEnable = false;
+        _realMoveSpeed = dashSpeed;
+        yield return new WaitForSeconds(dashSecDuration);
 
         _realMoveSpeed = moveSpeed;
+        yield return new WaitForSeconds(dashSecCoolDown);
+
+        _dashEnable = true;
     }
+    
 }
