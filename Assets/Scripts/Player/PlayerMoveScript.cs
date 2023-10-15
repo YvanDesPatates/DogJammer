@@ -25,7 +25,8 @@ public class PlayerMoveScript : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _transform = transform;
-        _animator = GetComponent<Animator>();
+        TryGetComponent<Animator>(out Animator _animator);
+        this._animator = _animator;
         _realMoveSpeed = moveSpeed;
     }
 
@@ -42,8 +43,11 @@ public class PlayerMoveScript : MonoBehaviour
         float verticalMovement = verticalInput * _realMoveSpeed;
         Vector3 targetVelocity = new Vector2(horizontalMovement, verticalMovement);
         _rigidBody.velocity = Vector3.SmoothDamp(_rigidBody.velocity, targetVelocity, ref _velocity, 0.05f);
-        
-        _animator.SetBool("IsMoving", verticalMovement!=0 || horizontalMovement!=0 );
+
+        if (_animator is not null)
+        {
+            _animator.SetBool("IsMoving", verticalMovement!=0 || horizontalMovement!=0 );
+        }
         
         RotatePlayer(horizontalInput, verticalInput);
     }
