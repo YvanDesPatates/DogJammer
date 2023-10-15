@@ -28,10 +28,6 @@ public class PlayerMoveScript : MonoBehaviour
     void FixedUpdate()
     {
         SetActualSpeed();
-
-        int _horizontalDirection = Input.GetAxis("Horizontal") < 0 ? -1 : Input.GetAxis("Horizontal") > 0 ? 1 : 0;
-        int _verticalDirection = Input.GetAxis("Vertical") < 0 ? -1 : Input.GetAxis("Vertical") > 0 ? 1 : 0;
-        // RotatePlayer(_horizontalDirection, _verticalDirection);
     }
 
     public void Dash()
