@@ -15,6 +15,7 @@ public class PlayerMoveScript : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private Transform _transform;
     private Animator _animator;
+    private PlayerHeadScript _head;
     
     private Vector3 _velocity = Vector3.zero;
     private bool _dashEnable = true;
@@ -27,12 +28,14 @@ public class PlayerMoveScript : MonoBehaviour
         _transform = transform;
         TryGetComponent<Animator>(out Animator _animator);
         this._animator = _animator;
+        _head = GetComponentInChildren<PlayerHeadScript>();
         _realMoveSpeed = moveSpeed;
     }
 
     public void Dash()
     {
         if (_dashEnable is false) return;
+        if (_head.HasFrisbee()) return;
 
         StartCoroutine(DashSpeedAndCoolDownCoroutine());
     }
