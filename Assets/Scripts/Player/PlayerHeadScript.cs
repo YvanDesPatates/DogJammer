@@ -32,4 +32,9 @@ public class PlayerHeadScript : MonoBehaviour
         _frisbee.ThrowFrisbee(_target.position - transform.position);
         _frisbee = null;
     }
+
+    internal bool HasFrisbee()
+    {
+        return _frisbee is not null;
+    }
 }
