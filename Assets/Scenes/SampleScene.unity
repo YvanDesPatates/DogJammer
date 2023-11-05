@@ -1372,8 +1372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309fd53e321d41f44b6198da15d86fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseBetweenTwoPointInSeconds: 1
+  speedOfFirstThrow: 0.5
   leftScoreText: {fileID: 1837354169}
   rightScoreText: {fileID: 1784613068}
+  frisbee: {fileID: 1694486803}
+  frisbeeInitialPlace: {fileID: 1880295053}
 --- !u!4 &1716724691
 Transform:
   m_ObjectHideFlags: 0
@@ -1386,7 +1390,8 @@ Transform:
   m_LocalPosition: {x: 377.026, y: 214.0515, z: -2.5348568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1880295053}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1730725375
@@ -1986,6 +1991,37 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!1 &1880295052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1880295053}
+  m_Layer: 0
+  m_Name: FrisbeeInitialPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1880295053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880295052}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -377.03, y: -213.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1716724691}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2022500008
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,9 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
+    public float pauseBetweenTwoPointInSeconds;
+    public float speedOfFirstThrow;
+    
     public TextMeshProUGUI leftScoreText;
     public TextMeshProUGUI rightScoreText;
     public FrisbeeMoveScript frisbee;
@@ -18,28 +22,29 @@ public class GameManagerScript : MonoBehaviour
     {
         leftScoreText.SetText(_leftPlayerScore.ToString());
         rightScoreText.SetText(_rightPlayerScore.ToString());
-        StartNextPoint(false);
+        StartCoroutine(StartNextPoint(false) );
     }
 
     public void FrisbeeTouchedRightGoal()
     {
         _leftPlayerScore += 1;
         leftScoreText.SetText(_leftPlayerScore.ToString());
-        StartNextPoint(true);
+        StartCoroutine(StartNextPoint(false) );
     }
 
     public void FrisbeeTouchedLeftGoal()
     {
         _rightPlayerScore += 1;
         rightScoreText.SetText(_rightPlayerScore.ToString());
-        StartNextPoint(false);
+        StartCoroutine(StartNextPoint(false) );
     }
     
-    private void StartNextPoint(bool throwToRight)
+    private IEnumerator StartNextPoint(bool throwToRight)
     {
-        frisbee.SetPosition(frisbeeInitialPlace.position);
+        frisbee.CatchFrisbee(frisbeeInitialPlace);
+        yield return new WaitForSeconds(pauseBetweenTwoPointInSeconds);
         
-        int x = throwToRight ? 1 : -1;
+        float x = throwToRight ? speedOfFirstThrow : (float)(speedOfFirstThrow * -1);
         frisbee.ThrowFrisbee(new Vector2(x, 0));
     }
     
