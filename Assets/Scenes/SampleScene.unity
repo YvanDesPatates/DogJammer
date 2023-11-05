@@ -1240,6 +1240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   torqueRotation: 50
+  fadeInSpeed: 0.8
   velocity: {x: -1, y: 0}
 --- !u!58 &1694486804
 CircleCollider2D:
@@ -1372,7 +1373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309fd53e321d41f44b6198da15d86fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseBetweenTwoPointInSeconds: 1
   speedOfFirstThrow: 0.5
   leftScoreText: {fileID: 1837354169}
   rightScoreText: {fileID: 1784613068}

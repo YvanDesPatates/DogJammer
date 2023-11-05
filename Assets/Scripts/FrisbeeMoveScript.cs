@@ -6,11 +6,15 @@ public class FrisbeeMoveScript : MonoBehaviour
 {
     public float speed = 10;
     public float torqueRotation = 50;
+    public float fadeInInverseSpeed;
 
     public Vector2 velocity;
 
     private Rigidbody2D _rigidBody;
     private Transform _targetPos;
+    private Material _fadeMaterial;
+    
+    private static readonly int Fade = Shader.PropertyToID("_Fade");
 
 
     // Start is called before the first frame update
@@ -18,6 +22,7 @@ public class FrisbeeMoveScript : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         ThrowFrisbee(velocity);
+        _fadeMaterial = GetComponent<SpriteRenderer>().material;
     }
 
     // Update is called once per frame
@@ -41,4 +46,14 @@ public class FrisbeeMoveScript : MonoBehaviour
         _targetPos = targetPos;
     }
 
+    public IEnumerator FadeIn()
+    {
+        float fade = 0f;
+        while (fade < 1)
+        {
+            _fadeMaterial.SetFloat(Fade, fade);
+            fade += 0.1f;
+            yield return new WaitForSeconds(fadeInInverseSpeed/10);
+        }
+    }
 }

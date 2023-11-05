@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
-    public float pauseBetweenTwoPointInSeconds;
     public float speedOfFirstThrow;
     
     public TextMeshProUGUI leftScoreText;
@@ -42,7 +41,7 @@ public class GameManagerScript : MonoBehaviour
     private IEnumerator StartNextPoint(bool throwToRight)
     {
         frisbee.CatchFrisbee(frisbeeInitialPlace);
-        yield return new WaitForSeconds(pauseBetweenTwoPointInSeconds);
+        yield return StartCoroutine(frisbee.FadeIn());
         
         float x = throwToRight ? speedOfFirstThrow : (float)(speedOfFirstThrow * -1);
         frisbee.ThrowFrisbee(new Vector2(x, 0));
