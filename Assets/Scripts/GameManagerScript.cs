@@ -21,7 +21,7 @@ public class GameManagerScript : MonoBehaviour
     {
         leftScoreText.SetText(_leftPlayerScore.ToString());
         rightScoreText.SetText(_rightPlayerScore.ToString());
-        StartCoroutine(StartNextPoint(false) );
+        StartCoroutine(StartPoint(false) );
     }
 
     public void FrisbeeTouchedRightGoal()
@@ -37,8 +37,15 @@ public class GameManagerScript : MonoBehaviour
         rightScoreText.SetText(_rightPlayerScore.ToString());
         StartCoroutine(StartNextPoint(false) );
     }
-    
+
     private IEnumerator StartNextPoint(bool throwToRight)
+    {
+        frisbee.Stop();
+        yield return StartCoroutine(frisbee.FadeOut());
+        StartCoroutine(StartPoint(throwToRight));
+    }
+    
+    private IEnumerator StartPoint(bool throwToRight)
     {
         frisbee.CatchFrisbee(frisbeeInitialPlace);
         yield return StartCoroutine(frisbee.FadeIn());
