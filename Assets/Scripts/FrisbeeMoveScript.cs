@@ -34,15 +34,20 @@ public class FrisbeeMoveScript : MonoBehaviour
         _rigidBody.velocity = velocity * speed;
     }
 
-    public void SetSpeed(float speed)
-    {
-        this.speed = speed;
-    }
-
     public void CatchFrisbee(Transform targetPos)
     {
         _rigidBody.velocity = Vector2.zero;
         _rigidBody.freezeRotation = true;
         _targetPos = targetPos;
+    }
+    
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 }
