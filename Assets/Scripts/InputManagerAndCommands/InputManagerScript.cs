@@ -1,9 +1,9 @@
-using DefaultNamespace;
+using DefaultNamespace;using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class InputManagerScript : MonoBehaviour
+public class InputManagerScript : MonoBehaviour, PlayerObserver
 {
     public PlayerFacadeScript player1;
     public PlayerFacadeScript player2;
@@ -20,6 +20,8 @@ public class InputManagerScript : MonoBehaviour
     {
         _southButtonCommand = new ThrowFrisbeeCommand();
         _westButtonCommand = new DashCommand();
+        player1.SubscribeAsObserver(this);
+        player2.SubscribeAsObserver(this);
     }
 
     // Update is called once per frame
@@ -79,5 +81,10 @@ public class InputManagerScript : MonoBehaviour
         if (gamepad.Equals(_player1Gamepad)) return;
         _player2Gamepad = gamepad;
         _allGamepadWasAttributed = true;
+    }
+
+    public void FrisbeeWasCatched(PlayerFacadeScript player)
+    {
+        throw new System.NotImplementedException();
     }
 }

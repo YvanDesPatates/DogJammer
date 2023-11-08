@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Player;
 using UnityEngine;
 
 public class PlayerHeadScript : MonoBehaviour
@@ -8,6 +9,9 @@ public class PlayerHeadScript : MonoBehaviour
     private FrisbeeMoveScript _frisbee;
     private Transform _target;
     private Transform _frisbeePos;
+
+    private PlayerObserver _observer;
+    private PlayerFacadeScript _facade;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +26,7 @@ public class PlayerHeadScript : MonoBehaviour
         {
             _frisbee = other.gameObject.GetComponent<FrisbeeMoveScript>();
             _frisbee.CatchFrisbee(_frisbeePos);
+            _observer.FrisbeeWasCatched(_facade);
         }
     }
 
@@ -36,5 +41,15 @@ public class PlayerHeadScript : MonoBehaviour
     internal bool HasFrisbee()
     {
         return _frisbee is not null;
+    }
+
+    internal void SetObserver(PlayerObserver observer)
+    {
+        _observer = observer;
+    }
+
+    internal void SetFacade(PlayerFacadeScript facade)
+    {
+        _facade = facade;
     }
 }

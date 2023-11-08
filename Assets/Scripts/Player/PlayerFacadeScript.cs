@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class PlayerFacadeScript : MonoBehaviour
@@ -26,5 +27,11 @@ public class PlayerFacadeScript : MonoBehaviour
     public void ThrowFrisbee()
     {
         _playerHeadScript.ThrowFrisbee();
+    }
+
+    public void SubscribeAsObserver(PlayerObserver observer)
+    {
+        _playerHeadScript.SetFacade(this);
+        _playerHeadScript.SetObserver(observer);
     }
 }
