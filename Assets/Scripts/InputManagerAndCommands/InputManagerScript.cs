@@ -13,13 +13,17 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
     private Gamepad _player1Gamepad;
     private Gamepad _player2Gamepad;
     private bool _allGamepadWasAttributed = false;
+    private ICommand _northButtonCommand;
     private ICommand _southButtonCommand;
     private ICommand _westButtonCommand;
+    private ICommand _estButtonCommand;
+    private ICommand _rightTriggerCommand;
 
     void Start()
     {
-        _southButtonCommand = new ThrowFrisbeeCommand();
-        _westButtonCommand = new DashCommand();
+        SetButtonsCommandToVoid();
+        _rightTriggerCommand = new DashCommand();
+        
         player1.SubscribeAsObserver(this);
         player2.SubscribeAsObserver(this);
     }
@@ -46,6 +50,12 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
             _westButtonCommand.Execute(player1);
         }
 
+        if (_player1Gamepad.rightTrigger.wasPressedThisFrame)
+        {
+            _rightTriggerCommand.Execute(player1);
+        }
+
+        // only for testing purpose
         if (testMode1Player) return;
 
         if (_player2Gamepad.buttonSouth.wasPressedThisFrame)
@@ -56,6 +66,11 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
         if (_player2Gamepad.buttonWest.wasPressedThisFrame)
         {
             _westButtonCommand.Execute(player2);
+        }
+
+        if (_player2Gamepad.rightTrigger.wasPressedThisFrame)
+        {
+            _rightTriggerCommand.Execute(player2);
         }
     }
 
@@ -86,5 +101,13 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
     public void FrisbeeWasCatched(PlayerFacadeScript player)
     {
         throw new System.NotImplementedException();
+    }
+
+    private void SetButtonsCommandToVoid()
+    {
+        _northButtonCommand = new VoidCommand();
+        _southButtonCommand = new VoidCommand();
+        _westButtonCommand = new VoidCommand();
+        _estButtonCommand = new VoidCommand();
     }
 }
