@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DefaultNamespace;using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,8 +11,7 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
 
     public bool testMode1Player = false;
 
-    private Gamepad _player1Gamepad;
-    private Gamepad _player2Gamepad;
+    private Dictionary<PlayerFacadeScript, Gamepad> mapPlayerAndPad;
     private bool _allGamepadWasAttributed = false;
     private ICommand _northButtonCommand;
     private ICommand _southButtonCommand;
@@ -21,6 +21,9 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
 
     void Start()
     {
+        mapPlayerAndPad = new Dictionary<PlayerFacadeScript, Gamepad>();
+        mapPlayerAndPad.Add(player1, null);
+        mapPlayerAndPad.Add(player2, null);
         SetButtonsCommandToVoid();
         _rightTriggerCommand = new DashCommand();
         
@@ -40,17 +43,17 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
         Move();
         
         
-        if (_player1Gamepad.buttonSouth.wasPressedThisFrame)
+        if (mapPlayerAndPad[player1].buttonSouth.wasPressedThisFrame)
         {
             _southButtonCommand.Execute(player1);
         }
 
-        if (_player1Gamepad.buttonWest.wasPressedThisFrame)
+        if (mapPlayerAndPad[player1].buttonWest.wasPressedThisFrame)
         {
             _westButtonCommand.Execute(player1);
         }
 
-        if (_player1Gamepad.rightTrigger.wasPressedThisFrame)
+        if (mapPlayerAndPad[player1].rightTrigger.wasPressedThisFrame)
         {
             _rightTriggerCommand.Execute(player1);
         }
@@ -58,17 +61,17 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
         // only for testing purpose
         if (testMode1Player) return;
 
-        if (_player2Gamepad.buttonSouth.wasPressedThisFrame)
+        if (mapPlayerAndPad[player2].buttonSouth.wasPressedThisFrame)
         {
             _southButtonCommand.Execute(player2);
         }
 
-        if (_player2Gamepad.buttonWest.wasPressedThisFrame)
+        if (mapPlayerAndPad[player2].buttonWest.wasPressedThisFrame)
         {
             _westButtonCommand.Execute(player2);
         }
 
-        if (_player2Gamepad.rightTrigger.wasPressedThisFrame)
+        if (mapPlayerAndPad[player2].rightTrigger.wasPressedThisFrame)
         {
             _rightTriggerCommand.Execute(player2);
         }
@@ -76,9 +79,9 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
 
     private void Move()
     {
-        player1.Move(_player1Gamepad.leftStick.x.value, _player1Gamepad.leftStick.y.value);
+        player1.Move(mapPlayerAndPad[player1].leftStick.x.value, mapPlayerAndPad[player1].leftStick.y.value);
         if (testMode1Player) return;
-        player2.Move(_player2Gamepad.leftStick.x.value, _player2Gamepad.leftStick.y.value);
+        player2.Move(mapPlayerAndPad[player2].leftStick.x.value, mapPlayerAndPad[player2].leftStick.y.value);
     }
 
     private void SetUpGamePadMapping()
@@ -86,21 +89,21 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
         var gamepad = Gamepad.current;
         if (gamepad is null) return;
 
-        if (_player1Gamepad is null)
+        if (mapPlayerAndPad[player1] is null)
         {
-            _player1Gamepad = gamepad;
+            mapPlayerAndPad[player1] = gamepad;
             if (testMode1Player) _allGamepadWasAttributed = true;
             return;
         }
 
-        if (gamepad.Equals(_player1Gamepad)) return;
-        _player2Gamepad = gamepad;
+        if (gamepad.Equals(mapPlayerAndPad[player1])) return;
+        mapPlayerAndPad[player1] = gamepad;
         _allGamepadWasAttributed = true;
     }
 
     public void FrisbeeWasCatched(PlayerFacadeScript player)
     {
-        throw new System.NotImplementedException();
+
     }
 
     private void SetButtonsCommandToVoid()
