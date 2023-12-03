@@ -103,7 +103,23 @@ public class InputManagerScript : MonoBehaviour, PlayerObserver
 
     public void FrisbeeWasCatched(PlayerFacadeScript player)
     {
-
+        SetButtonsCommandToVoid();
+        var randomChoice = Random.Range(1, 4);
+        switch (Random.Range(0, 4))
+        {
+            case <= 1:
+                _northButtonCommand = new ThrowFrisbeeCommand();
+                break;
+            case <= 2:
+                _southButtonCommand = new ThrowFrisbeeCommand();
+                break;
+            case <= 3:
+                _westButtonCommand = new ThrowFrisbeeCommand();
+                break;
+            case <= 4:
+                _estButtonCommand = new ThrowFrisbeeCommand();
+                break;
+        }
     }
 
     private void SetButtonsCommandToVoid()
